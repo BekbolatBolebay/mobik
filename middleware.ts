@@ -1,5 +1,6 @@
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server"
 
+// Ашық маршруттарды анықтау
 const isPublicRoute = createRouteMatcher([
   "/",
   "/materials",
@@ -11,13 +12,16 @@ const isPublicRoute = createRouteMatcher([
 ])
 
 export default clerkMiddleware((auth, req) => {
-  if (!process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY || !process.env.CLERK_SECRET_KEY) {
-    console.warn("Clerk keys not configured. All routes are public.")
-    return
-  }
-
   // Егер маршрут ашық болмаса, аутентификацияны талап ету
   if (!isPublicRoute(req)) {
-    return auth().redirectToSignIn()
+    auth().protect()
   }
 })
+
+export const config = {
+  matcher: [
+    "/((?!.+\\.[\\w]+$|_next|favicon.ico|robots.txt|sitemap.xml).*)",
+    "/",
+    "/(api|trpc)(.*)",
+  ],
+}
