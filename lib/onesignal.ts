@@ -4,14 +4,13 @@ export function initOneSignal() {
   if (typeof window !== "undefined" && !window.OneSignal) {
     window.OneSignal = window.OneSignal || []
     window.OneSignal.push(() => {
-      window.OneSignal.init({
-        appId: process.env.NEXT_PUBLIC_ONESIGNAL_APP_ID,
-        safari_web_id: "YOUR_SAFARI_WEB_ID", // Егер Safari үшін қолдансаңыз, осыны өзгертіңіз
-        notifyButton: {
-          enable: true,
-        },
-        allowLocalhostAsSecureOrigin: true,
-      })
+window.OneSignal.init({
+  appId: process.env.NEXT_PUBLIC_ONESIGNAL_APP_ID!, // міндетті түрінде "!" қос
+  safari_web_id: process.env.NEXT_PUBLIC_ONESIGNAL_SAFARI_ID, // .env ішіне қоссын
+  notifyButton: { enable: true },
+  allowLocalhostAsSecureOrigin: true,
+})
+
     })
   }
 }
